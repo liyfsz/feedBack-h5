@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+<meta content="yes" name="apple-mobile-web-app-capable">
+<meta content="blue" name="apple-mobile-web-app-status-bar-style">
+<meta content="telephone=no" name="format-detection">
+<meta content="email=no" name="format-detection">
+<title>留言与反馈</title>
+<link rel="stylesheet" href="css/reset.css"/>
+<link rel="stylesheet" href="css/messAndBack.css" />
+</head>
+<body>
+<div class="page">
+	<ul id="ulList">
+	  
+	</ul>
+	<div class="tips">
+	  <img src="img/ask.png"/>
+	  <p>您所提出的问题</p>
+	  <p>工作人员看到后会立即回复</p>
+	</div>
+	<form action="/ada" class="formBox clearBoth" id="myform">
+	  <textarea placeholder="请填写您的问题" name="content"></textarea>
+	  <button class="fr" id="submitQues" data-id-co="111">提交</button>
+	</form>
+</div>
+
+<script type="text/javascript" src="js/zepto.min.js" ></script>
+<script type="text/javascript" src="js/pageResponse.min.js"></script>
+<script type="text/javascript" src="js/handlebars.js" ></script>
+<script id="list-row" type="text/x-handlebars-template">
+      {{#each lists}}
+      <li>
+        <div class="titleColu clearBoth">
+          <b class="fl">{{title}}</b>
+          <span class="fr">
+          {{createDate}}
+        </span>
+        </div>
+        <p>
+          <em>回答:</em>{{content}}
+        </p>
+      </li>
+      {{/each}}
+    </script>
+<script type="text/javascript">
+window.onload = window.onresize = function(){
+    pageResponse({
+        selectors : '.page',     //模块选择器，使用querySelectorAll的方法
+        mode : 'contain',     // auto || contain || cover ，默认模式为auto 
+        width : '375',      //输入页面的宽度，只支持输入数值，默认宽度为320px
+        height : '667'      //输入页面的高度，只支持输入数值，默认高度为504px
+    })
+};
+
+$(document).ready(function() {
+  console.log(111);
+  var data = {
+    "lists": [{
+      "title": "111",
+      "createDate": "2017-01-01",
+      "content": "我是内容我是内容我是内容我是内容我是内容我是内容"
+    }, {
+      "title": "222",
+      "createDate": "2017-02-02",
+      "content": "我是内容我是内容我是内容我是内容我是内容我是内容"
+    }, {
+      "title": "333",
+      "createDate": "2017-03-03",
+      "content": "我是内容我是内容我是内容我是内容我是内容我是内容"
+    }]
+  };
+  var aaa = $('#list-row').html();
+  console.log(aaa);
+  var myTemplate = Handlebars.compile($("#list-row").html());
+  $('#ulList').html(myTemplate(data));
+});
+
+$("#submitQues").click(function(){
+  var params = $("#myform").serialize();  
+            $.ajax( {  
+                type : "POST",  
+                url : "/aaa/aaaa",  
+                data : params,  
+                success : function(msg) {  
+                    alert("success: " + msg);  
+                }  
+            });  
+});
+ console.log($("#submitQues").data("idco"));
+</script>
+</body>
+</html>
